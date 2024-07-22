@@ -1,5 +1,6 @@
 <script lang="ts">
     import { writable } from 'svelte/store';
+    import data from "$lib/store/data";
     import {
       SvelteFlow,
       Controls,
@@ -10,8 +11,8 @@
    
     // import styles for Svelte Flow
     import '@xyflow/svelte/dist/style.css';
-   
-    // We are using writables for the nodes and edges to sync them easily. When a user drags a node for example, Svelte Flow updates its position.
+
+    // Create nodes from components
     const nodes = writable([
       {
         id: '1',
