@@ -13,7 +13,7 @@ const config = {
 			fallback: 'index.html'
 		}),
 		paths: {
-			base: '/urdf-viewer',
+			base: '/codegen-web',
 			relative: true
 		}
 		
