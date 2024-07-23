@@ -1,0 +1,37 @@
+{
+  "name": "turtlebot3_msgs",
+  "desc": "Turtlebot 3 Messages",
+  "type": "ros2_pkg",
+  "groups": [
+    {
+      "name": "turtlebot_msgs",
+      "components": [
+        {
+          "name": "SensorState",
+          "pkg": "turtlebot_msgs",
+          "content": [
+            {
+              "name": "header",
+              "attr_type": "std_msgs/Header"
+            },
+            {
+              "attr_type": "uint8",
+              "name": "bumper"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "std_msgs",
+      "components": [
+        {
+          "name": "Header",
+          "pkg": "std_msgs",
+          "content": []
+        }
+      ]
+    }
+  ],
+  "components": []
+}

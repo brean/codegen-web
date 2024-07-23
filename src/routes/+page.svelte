@@ -8,47 +8,17 @@
     Media,
     Actions
   } from '@smui/card';
-  import { Icon } from '@smui/icon-button';
-  import data from "$lib/store/data";
-  import type IGroup from "$lib/model/IGroup";
-  import type IComponent from "$lib/model/IComponent";
+  import diagram from "$lib/store/diagram";
+  import diaggen from "$lib/data/diaggen.json"
+  import turtlebot_msgs from "$lib/data/turtlebot_msgs.json"
+  import type IDiagram from "$lib/model/IDiagram";
 
-  let graphs = [
-    {
-      name: 'diaggen',
-      desc: 'Diagram Editor Class Diagram',
-      type: 'python class diagram',
-      data: [{
-        name: 'model',
-        components: [
-          {
-            name: 'Component',
-            pkg: 'model',
-            content: [
-              {
-                name: 'name',
-                attr_type: 'str',
-                prefix: '+'
-              },
-              {
-                name: 'pkg',
-                attr_type: 'str',
-                prefix: '+'
-              }
-            ]
-          } as IComponent
-        ]
-      }] as IGroup[]
-    },
-    {
-      name: 'turtlebot3_msgs',
-      desc: 'Turtlebot 3 Messages',
-      type: 'ROS 2 messages',
-      data: [{}] as IGroup[]
-    }
+  let graphs: IDiagram[] = [
+    diaggen,
+    turtlebot_msgs
   ]
 </script>
-{#if $data}
+{#if $diagram}
 <BaseFlow />
 {:else}
 <div>
@@ -62,7 +32,7 @@
                 <Card>
                   <PrimaryAction on:click={() => {
                     console.log(graph)
-                    data.set(graph.data);
+                    diagram.set(graph);
                   }}>
                     <CardContent class="mdc-typography--body2">
                       <h2 class="mdc-typography--headline6" style="margin: 0;">

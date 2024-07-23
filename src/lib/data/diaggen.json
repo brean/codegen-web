@@ -1,0 +1,50 @@
+{
+  "name": "diaggen",
+  "desc": "Diagram Editor Class Diagram",
+  "type": "class_diagram",
+  "groups": [
+    {
+      "name": "model",
+      "components": [
+        {
+          "name": "Component",
+          "pkg": "model",
+          "content": [
+            {
+              "name": "name",
+              "attr_type": "str",
+              "prefix": "+"
+            },
+            {
+              "name": "pkg",
+              "attr_type": "str",
+              "prefix": "+"
+            }
+          ]
+        },
+        {
+          "name": "Component",
+          "pkg": "model",
+          "content": [
+            {
+              "name": "attr_type",
+              "attr_type": "str",
+              "prefix": "+"
+            },
+            {
+              "name": "name",
+              "attr_type": "str",
+              "prefix": "+"
+            },
+            {
+              "name": "prefix",
+              "attr_type": "str",
+              "prefix": "+"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "components": []
+}
