@@ -15,6 +15,13 @@ export default class DiagramGroup extends DiagramNode {
     this.width = 300;
     this.height = 10.0;
     this.children = [];
+    this.createChildren();
+    this.dagreWidth = 1;
+    this.dagreHeight = 1;
+  }
+
+  createChildren() {
+    // TODO: create children 
   }
 
   subChildSum(): number {
