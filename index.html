@@ -21,21 +21,31 @@
 		<!-- SMUI Styles -->
 		<link
 			rel="stylesheet"
-			href="https://cdn.jsdelivr.net/npm/svelte-material-ui@7.0.0/bare.min.css"
+			href="https://cdn.jsdelivr.net/npm/svelte-material-ui@7.0.0/themes/svelte-dark.min.css"
 		/>
 		
-		<link rel="modulepreload" href="/codegen-web/_app/immutable/entry/start.CkbYF2RA.js">
-		<link rel="modulepreload" href="/codegen-web/_app/immutable/chunks/entry.CU3T9XlT.js">
+		<link rel="modulepreload" href="/codegen-web/_app/immutable/entry/start.Dht4JfvA.js">
+		<link rel="modulepreload" href="/codegen-web/_app/immutable/chunks/entry.DUpqyOGt.js">
 		<link rel="modulepreload" href="/codegen-web/_app/immutable/chunks/scheduler.DwddR0Sr.js">
 		<link rel="modulepreload" href="/codegen-web/_app/immutable/chunks/index.tjjKeD1S.js">
-		<link rel="modulepreload" href="/codegen-web/_app/immutable/entry/app.Ilm-CF0R.js">
+		<link rel="modulepreload" href="/codegen-web/_app/immutable/entry/app.CBx1W_N_.js">
 		<link rel="modulepreload" href="/codegen-web/_app/immutable/chunks/index.BCYAyOe1.js">
+		<style>
+			.content {
+				display: contents;
+			}
+
+			body, html {
+				margin: 0;
+				background-color: #141414;
+			}
+		</style>
 	</head>
 	<body data-sveltekit-preload-data="hover">
-		<div style="display: contents">
+		<div class="content">
 			<script>
 				{
-					__sveltekit_zzoyd3 = {
+					__sveltekit_1xvuv14 = {
 						base: "/codegen-web",
 						assets: "/codegen-web"
 					};
@@ -43,8 +53,8 @@
 					const element = document.currentScript.parentElement;
 
 					Promise.all([
-						import("/codegen-web/_app/immutable/entry/start.CkbYF2RA.js"),
-						import("/codegen-web/_app/immutable/entry/app.Ilm-CF0R.js")
+						import("/codegen-web/_app/immutable/entry/start.Dht4JfvA.js"),
+						import("/codegen-web/_app/immutable/entry/app.CBx1W_N_.js")
 					]).then(([kit, app]) => {
 						kit.start(app, element);
 					});
