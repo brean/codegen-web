@@ -17,6 +17,7 @@
     import '@xyflow/svelte/dist/style.css';
     import { onMount } from 'svelte';
     import DiagramGraph from '$lib/diagram/DiagramGraph';
+    import Component from './Component.svelte';
 
     let colorMode: ColorMode = 'dark';
 
@@ -28,6 +29,10 @@
     let innerHeight = 500;
     let graph: DiagramGraph;
 
+    const nodeTypes = {
+      component: Component
+    }
+
     onMount(async () => {
       if (!$diagram) {
         return;
@@ -38,13 +43,14 @@
       $edges = graph.flowEdges;
     })
   </script>
-   
+
   <svelte:window bind:innerHeight={innerHeight} />
 
   <div style:height={innerHeight + 'px'} style:margin={0} style:padding={0}>
     <SvelteFlow
       {nodes}
       {edges}
+      {nodeTypes}
       {snapGrid}
       {colorMode}
       proOptions={{hideAttribution: true}}

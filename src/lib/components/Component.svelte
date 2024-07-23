@@ -1,13 +1,19 @@
 <script lang="ts">
+  import { type NodeProps } from '@xyflow/svelte';
   import type IComponent from "$lib/model/IComponent";
   import { Handle, Position } from '@xyflow/svelte';
+  
+  type $$Props = NodeProps;
 
-  // a component is a Class/Message/...
-  export let component:IComponent
+  export let data: any;
 </script>
 
 <div class="node">
   <Handle type="target" position={Position.Top} />
+  <div>
+    {data}
+  </div>
+  <Handle type="source" position={Position.Right} />
 </div>
 
 <style>

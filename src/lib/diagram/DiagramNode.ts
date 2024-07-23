@@ -2,9 +2,16 @@
 import dagre from '@dagrejs/dagre';
 import type { Edge, Node } from '@xyflow/svelte';
 import { v4 as uuid } from 'uuid';
+import type DiagramGraph from './DiagramGraph';
+import type IComponent from '$lib/model/IComponent';
+import type IGroup from '$lib/model/IGroup';
+import type DiagramGroup from './DiagramGroup';
 
 export default class DiagramNode {
-  id: string;
+  id: string
+  graph: DiagramGraph;
+  nodeData?: IComponent;
+
   width: number = 250.0;
   height: number = 50.0;
   dagreWidth: number = 250;
@@ -12,8 +19,21 @@ export default class DiagramNode {
   x: number = 0.0;
   y: number = 0.0;
 
-  constructor(id?: string) {
+  parent?: DiagramGroup;
+
+  constructor(graph: DiagramGraph, data?: IComponent, id?: string, parent?: DiagramGroup) {
+    this.graph = graph;
+    this.nodeData = data
     this.id = id || uuid();
+    this.parent = parent;
+  }
+
+  calcWidth(): number {
+    return this.width + 20;
+  }
+
+  calcHeight(): number {
+    return this.height + 20;
   }
 
   calcX(dagreNode: { x: number }): number {
@@ -22,6 +42,30 @@ export default class DiagramNode {
 
   calcY(dagreNode: {y: number}): number {
     return dagreNode.y - (this.dagreHeight / 2);
+  }
+
+  maxChildrenElements(): number {
+    return 0;
+  }
+
+  subChildSum(): number {
+    return 1;
+  }
+
+
+  updatePosition() {
+    // add additional distances to x/y coordinates AFTER calling dagre
+  }
+
+  calculateDimension() {
+    // set width/height BEFORE calling dagre
+  }
+
+  flowNode(g: dagre.graphlib.Graph, nodeList: Node[]) {
+    const node = this.createFlowNode(g)
+    if (node) {
+      nodeList.push(node);
+    }
   }
 
   createFlowNode(g: dagre.graphlib.Graph): Node | undefined {
@@ -40,5 +84,4 @@ export default class DiagramNode {
     };
     return node;
   }
-  
 }
