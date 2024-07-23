@@ -8,10 +8,14 @@
     Media,
     Actions
   } from '@smui/card';
+  import Button from '@smui/button';
   import diagram from "$lib/store/diagram";
   import diaggen from "$lib/data/diaggen.json"
   import turtlebot_msgs from "$lib/data/turtlebot_msgs.json"
   import type IDiagram from "$lib/model/IDiagram";
+  import NewDiagramDialog from "$lib/dialogs/NewDiagramDialog.svelte";
+
+  let showNewDiagDialog = false;
 
   let graphs: IDiagram[] = [
     diaggen,
@@ -60,8 +64,22 @@
             </div>
           </Cell>
         {/each}
+        <Cell span={2}>
+          <div class="card-display">
+            <div class="card-container" style:height={"200px"}>
+              <Card>
+                <PrimaryAction on:click={() => {
+                  showNewDiagDialog = true;
+                }}>
+                  <Button>New diagram</Button>
+                </PrimaryAction>
+              </Card>
+            </div>
+          </div>
+        </Cell>
       </LayoutGrid>
     {/if}
   </main>
 </div>
 {/if}
+<NewDiagramDialog bind:open={showNewDiagDialog}></NewDiagramDialog>
