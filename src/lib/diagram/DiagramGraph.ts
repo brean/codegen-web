@@ -41,13 +41,24 @@ export default class DiagramGraph {
     this.reset();
 
     this.diagram = diagram;
-
-
+    const children: (DiagramGroup | DiagramNode)[] = [];
     // create our own graph structure form diagram data 
     // (DiagramGroup and DiagramNode instances)
-    // create node
-    // create group
-    // TODO: add dagre nodes
+    for (let group of diagram.groups) {
+      children.push(this.createNode(group, undefined));
+    }
+    // after all children have been created and all its positions and dimensions
+    // have been calculated we can forward the data to dagree
+    for (const child of children) {
+      child.dagreNode(this.g);
+    }
+
+    // let dagre layout calculate the layout
     dagre.layout(this.g);
+
+    // create nodes for svelteflow
+    for (const child of children) {
+      child.flowNode(this.g, this.flowNodes);
+    }
   }
 }

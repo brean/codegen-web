@@ -68,6 +68,11 @@ export default class DiagramNode {
     }
   }
 
+  dagreNode(g: dagre.graphlib.Graph) {
+    g.setNode(this.id, { width: this.dagreWidth, height: this.dagreHeight });
+    // TODO: setEdge for dagre connection between attributes
+  }
+
   createFlowNode(g: dagre.graphlib.Graph): Node | undefined {
     let dagreNode = g.node(this.id);
     if (dagreNode) {

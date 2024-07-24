@@ -21,7 +21,17 @@ export default class DiagramGroup extends DiagramNode {
   }
 
   createChildren() {
-    // TODO: create children 
+    // TODO: create children
+    if (this.groupData.subgroup) {
+      for (const group of this.groupData.subgroup) {
+        this.children.push(this.graph.createNode(group, this));
+      }
+    }
+    if (this.groupData.components) {
+      for (const comp of this.groupData.components) {
+        this.children.push(this.graph.createNode(comp, this));
+      }
+    }
   }
 
   subChildSum(): number {
