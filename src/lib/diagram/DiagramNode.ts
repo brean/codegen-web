@@ -4,7 +4,6 @@ import type { Edge, Node } from '@xyflow/svelte';
 import { v4 as uuid } from 'uuid';
 import type DiagramGraph from './DiagramGraph';
 import type IComponent from '$lib/model/IComponent';
-import type IGroup from '$lib/model/IGroup';
 import type DiagramGroup from './DiagramGroup';
 
 export default class DiagramNode {
@@ -12,9 +11,9 @@ export default class DiagramNode {
   graph: DiagramGraph;
   nodeData?: IComponent;
 
-  width: number = 250.0;
+  width: number = 200.0;
   height: number = 50.0;
-  dagreWidth: number = 250;
+  dagreWidth: number = 200;
   dagreHeight: number = 20;
   x: number = 0.0;
   y: number = 0.0;
@@ -74,19 +73,24 @@ export default class DiagramNode {
   }
 
   createFlowNode(g: dagre.graphlib.Graph): Node | undefined {
-    let dagreNode = g.node(this.id);
+    const dagreNode = g.node(this.id);
     if (dagreNode) {
       this.x = this.calcX(dagreNode);
       this.y = this.calcY(dagreNode);
     } else {
-      console.log("dagre node does not exist!")
+      console.error(`dagre node ${this.id} does not exist!`)
       return;
     }
-    let node: Node = {
+    const node: Node = {
       id: this.id,
-      data: { label: this.id },
+      type: 'component',
+      data: { label: this.id, node: this.nodeData },
       position: { x: this.x, y: this.y }
     };
+    if (this.parent) {
+      node.parentId = this.parent.id;
+    }
+
     return node;
   }
 }

@@ -44,7 +44,7 @@ export default class DiagramGraph {
     const children: (DiagramGroup | DiagramNode)[] = [];
     // create our own graph structure form diagram data 
     // (DiagramGroup and DiagramNode instances)
-    for (let group of diagram.groups) {
+    for (const group of diagram.groups) {
       children.push(this.createNode(group, undefined));
     }
     // after all children have been created and all its positions and dimensions
@@ -60,5 +60,6 @@ export default class DiagramGraph {
     for (const child of children) {
       child.flowNode(this.g, this.flowNodes);
     }
+    console.log(this.flowNodes);
   }
 }

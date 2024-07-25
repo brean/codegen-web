@@ -34,6 +34,13 @@ export default class DiagramGroup extends DiagramNode {
     }
   }
 
+  dagreNode(g: dagre.graphlib.Graph) {
+    super.dagreNode(g)
+    for (const child of this.children) {
+      child.dagreNode(g);
+    }
+  }
+
   subChildSum(): number {
     // returns the amount of all children and childrens children
     let sum = 0;
@@ -45,7 +52,7 @@ export default class DiagramGroup extends DiagramNode {
 
   // create svelteflow Node
   createFlowNode(g: dagre.graphlib.Graph): Node | undefined {
-    let node = super.createFlowNode(g);
+    const node = super.createFlowNode(g);
     if (!node) {
       return;
     }
@@ -74,7 +81,7 @@ export default class DiagramGroup extends DiagramNode {
     if (node) {
       nodeList.push(node)
     }
-    
+    console.log(this.children)
     for (const child of this.children) {
       child.flowNode(g, nodeList);
     }

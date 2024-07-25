@@ -23,7 +23,7 @@
           ]
         },
         {
-          "name": "Component",
+          "name": "Attribute",
           "pkg": "model",
           "content": [
             {
