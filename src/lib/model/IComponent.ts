@@ -6,5 +6,7 @@ export default interface IComponent {
   // name of the component (ROS Message name/Python class name)
   name: string
   pkg: string
-  content: (IComment | IAttribute)[]
+  attributes: (IComment | IAttribute)[]
+  // member functions are only used for class diagrams, not ROS
+  functions?: (IComment | IAttribute)[]
 }

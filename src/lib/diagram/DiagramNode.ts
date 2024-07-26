@@ -6,23 +6,27 @@ import type DiagramGraph from './DiagramGraph';
 import type IComponent from '$lib/model/IComponent';
 import type DiagramGroup from './DiagramGroup';
 
+// TODO: rename to DiagramComponent?
 export default class DiagramNode {
   id: string
   graph: DiagramGraph;
-  nodeData?: IComponent;
+  compData: IComponent;
 
   width: number = 200.0;
-  height: number = 50.0;
+  height: number = 20.0;
   dagreWidth: number = 200;
   dagreHeight: number = 20;
+
+  cellHeight: number = 20;
+
   x: number = 0.0;
   y: number = 0.0;
 
   parent?: DiagramGroup;
 
-  constructor(graph: DiagramGraph, data?: IComponent, id?: string, parent?: DiagramGroup) {
+  constructor(graph: DiagramGraph, data: IComponent, id?: string, parent?: DiagramGroup) {
     this.graph = graph;
-    this.nodeData = data
+    this.compData = data
     this.id = id || uuid();
     this.parent = parent;
   }
@@ -32,7 +36,10 @@ export default class DiagramNode {
   }
 
   calcHeight(): number {
-    return this.height + 20;
+    const attributes = this.compData?.attributes.length || 0;
+    const functions = this.compData?.functions?.length || 0;
+    return this.height + 20 +
+      this.cellHeight * (attributes + functions);
   }
 
   calcX(dagreNode: { x: number }): number {
@@ -62,9 +69,9 @@ export default class DiagramNode {
 
   flowNode(g: dagre.graphlib.Graph, nodeList: Node[]) {
     const node = this.createFlowNode(g)
-    if (node) {
-      nodeList.push(node);
-    }
+    node.width = this.calcWidth();
+    node.height = this.calcHeight();
+    nodeList.push(node);
   }
 
   dagreNode(g: dagre.graphlib.Graph) {
@@ -72,19 +79,18 @@ export default class DiagramNode {
     // TODO: setEdge for dagre connection between attributes
   }
 
-  createFlowNode(g: dagre.graphlib.Graph): Node | undefined {
+  createFlowNode(g: dagre.graphlib.Graph): Node {
     const dagreNode = g.node(this.id);
     if (dagreNode) {
       this.x = this.calcX(dagreNode);
       this.y = this.calcY(dagreNode);
     } else {
-      console.error(`dagre node ${this.id} does not exist!`)
-      return;
+      throw new Error(`dagre node ${this.id} does not exist!`);
     }
     const node: Node = {
       id: this.id,
       type: 'component',
-      data: { label: this.id, node: this.nodeData },
+      data: { label: this.id, node: this },
       position: { x: this.x, y: this.y }
     };
     if (this.parent) {

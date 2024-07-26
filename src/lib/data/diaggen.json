@@ -9,7 +9,7 @@
         {
           "name": "Component",
           "pkg": "model",
-          "content": [
+          "attributes": [
             {
               "name": "name",
               "attr_type": "str",
@@ -25,7 +25,7 @@
         {
           "name": "Attribute",
           "pkg": "model",
-          "content": [
+          "attributes": [
             {
               "name": "attr_type",
               "attr_type": "str",

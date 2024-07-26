@@ -9,7 +9,7 @@
         {
           "name": "SensorState",
           "pkg": "turtlebot_msgs",
-          "content": [
+          "attributes": [
             {
               "name": "header",
               "attr_type": "std_msgs/Header"
@@ -28,7 +28,7 @@
         {
           "name": "Header",
           "pkg": "std_msgs",
-          "content": []
+          "attributes": []
         }
       ]
     }

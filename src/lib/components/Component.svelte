@@ -2,18 +2,40 @@
   import { type NodeProps } from '@xyflow/svelte';
   import type IComponent from "$lib/model/IComponent";
   import { Handle, Position } from '@xyflow/svelte';
+    import type DiagramNode from '$lib/diagram/DiagramNode';
   
   type $$Props = NodeProps;
 
-  export let data: { node: IComponent };
+  export let data: { node: DiagramNode };
+  let component = data.node.compData;
+  console.log(data.node.height);
 </script>
 
-<div class="node">
+<div class="node" style:height={`${data.node.height}px`}>
   <Handle type="target" position={Position.Top} />
-  <div class="pi_text">
-    {data.node.pkg}/{data.node.name}
+  <div class="header">
+    {component.pkg}/{component.name}
   </div>
-  <Handle type="source" position={Position.Right} />
+  {#if component.functions}
+  <div class="funcs">
+    {component.pkg}/{component.name}
+  </div>
+  {/if}
+  {#if component.attributes}
+  <div class="attributes">
+    {#each component.attributes as attr}
+      {#if Object.hasOwn(attr, 'attr_type')}
+        <div>
+          {attr.prefix || ''} {attr.name}:{attr.attr_type}
+          <div style="position: relative; right: 0; bottom: 5px;">
+          <Handle type="source" position={Position.Right} />
+          </div>
+        </div>
+      {/if}
+    {/each}
+  </div>
+  {/if}
+  
 </div>
 
 <style>
@@ -21,7 +43,6 @@
     position: relative;
     padding: 12px;
     border: 2px solid #b1b1b1;
-    border-radius: 36px;
-    height: 16px;
+    border-radius: 6px;
   }
 </style>

@@ -25,7 +25,7 @@
     const nodes = writable<Node[]>([]);
     const edges = writable<Edge[]>([]);
 
-    const snapGrid: [width: number, height: number] = [25, 25];
+    // const snapGrid: [width: number, height: number] = [25, 25];
     let innerHeight = 500;
     let graph: DiagramGraph;
 
@@ -51,7 +51,6 @@
       {nodes}
       {edges}
       {nodeTypes}
-      {snapGrid}
       {colorMode}
       proOptions={{hideAttribution: true}}
       fitView
