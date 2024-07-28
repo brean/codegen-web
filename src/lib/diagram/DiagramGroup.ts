@@ -12,12 +12,8 @@ export default class DiagramGroup extends DiagramNode {
   constructor(graph: DiagramGraph, data: IGroup, parent?: DiagramGroup) {
     super(graph, undefined, undefined, parent);
     this.groupData = data;
-    this.width = 300;
-    this.height = 10.0;
     this.children = [];
     this.createChildren();
-    this.dagreWidth = 1;
-    this.dagreHeight = 1;
   }
 
   createChildren() {
@@ -51,11 +47,8 @@ export default class DiagramGroup extends DiagramNode {
   }
 
   // create svelteflow Node
-  createFlowNode(g: dagre.graphlib.Graph): Node | undefined {
+  createFlowNode(g: dagre.graphlib.Graph): Node {
     const node = super.createFlowNode(g);
-    if (!node) {
-      return;
-    }
     node.type = 'group';
     return node;
   }
@@ -84,10 +77,6 @@ export default class DiagramGroup extends DiagramNode {
     console.log(this.children)
     for (const child of this.children) {
       child.flowNode(g, nodeList);
-    }
-    if (node) {
-      node.width = this.calcWidth();
-      node.height = this.calcHeight();
     }
   }
 }

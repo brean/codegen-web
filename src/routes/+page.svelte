@@ -1,4 +1,5 @@
 <script lang="ts">
+  import YAML from 'yaml'
   import BaseFlow from "$lib/components/BaseFlow.svelte";
   // smui
   import LayoutGrid, { Cell } from '@smui/layout-grid';
@@ -10,26 +11,35 @@
   } from '@smui/card';
   import Button from '@smui/button';
   import diagram from "$lib/store/diagram";
-  import diaggen from "$lib/data/diaggen.json"
-  import turtlebot_msgs from "$lib/data/turtlebot_msgs.json"
   import type IDiagram from "$lib/model/IDiagram";
   import NewDiagramDialog from "$lib/dialogs/NewDiagramDialog.svelte";
+  import { onMount } from "svelte";
+  import { writable } from 'svelte/store';
 
   let showNewDiagDialog = false;
+  let graphs = writable([]);
 
-  let graphs: IDiagram[] = [
-    diaggen,
-    turtlebot_msgs
-  ]
+  onMount(async () => {
+    const files = ['diaggen', 'turtlebot_msgs']
+    for (const file of files) {
+      const response = await fetch(`/codegen-web/data/${file}.yml`);
+      const text = await response.text();
+      const data = YAML.parse(text)
+      $graphs.push(data);
+    }
+    $graphs = $graphs;
+  })
+
+
 </script>
 {#if $diagram}
 <BaseFlow />
 {:else}
 <div>
   <main class="main-content">
-    {#if graphs && graphs.length > 0}
+    {#if $graphs && $graphs.length > 0}
       <LayoutGrid>
-        {#each graphs as graph}
+        {#each $graphs as graph}
           <Cell span={2}>
             <div class="card-display">
               <div class="card-container">

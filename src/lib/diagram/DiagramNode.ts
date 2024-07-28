@@ -12,10 +12,10 @@ export default class DiagramNode {
   graph: DiagramGraph;
   compData: IComponent;
 
-  width: number = 200.0;
-  height: number = 20.0;
-  dagreWidth: number = 200;
-  dagreHeight: number = 20;
+  initialHeight: number = 0;
+  initialWidth: number = 150;
+  width: number = 0;
+  height: number = 0;
 
   cellHeight: number = 20;
 
@@ -32,22 +32,22 @@ export default class DiagramNode {
   }
 
   calcWidth(): number {
-    return this.width + 20;
+    return this.initialWidth;
   }
 
   calcHeight(): number {
     const attributes = this.compData?.attributes.length || 0;
     const functions = this.compData?.functions?.length || 0;
-    return this.height + 20 +
+    return this.initialHeight + 20 +
       this.cellHeight * (attributes + functions);
   }
 
   calcX(dagreNode: { x: number }): number {
-    return dagreNode.x - (this.dagreWidth / 2);
+    return dagreNode.x - (this.width / 2);
   }
 
   calcY(dagreNode: {y: number}): number {
-    return dagreNode.y - (this.dagreHeight / 2);
+    return dagreNode.y - (this.height / 2);
   }
 
   maxChildrenElements(): number {
@@ -65,17 +65,18 @@ export default class DiagramNode {
 
   calculateDimension() {
     // set width/height BEFORE calling dagre
+    this.width = this.calcWidth();
+    this.height = this.calcHeight();
+    console.log([this.width, this.height])
   }
 
   flowNode(g: dagre.graphlib.Graph, nodeList: Node[]) {
     const node = this.createFlowNode(g)
-    node.width = this.calcWidth();
-    node.height = this.calcHeight();
     nodeList.push(node);
   }
 
   dagreNode(g: dagre.graphlib.Graph) {
-    g.setNode(this.id, { width: this.dagreWidth, height: this.dagreHeight });
+    g.setNode(this.id, { width: this.width, height: this.height });
     // TODO: setEdge for dagre connection between attributes
   }
 

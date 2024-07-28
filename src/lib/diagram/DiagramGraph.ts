@@ -23,11 +23,13 @@ export default class DiagramGraph {
 
   // --- rendering / create nodes and edges for dagre and svelteflow ---
 
-  createNode(item: IComponent | IGroup, parent?: DiagramGroup): DiagramNode {
+  createNode(item: IComponent | IGroup, parent?: DiagramGroup): DiagramNode | DiagramGroup {
     if (Object.hasOwn(item, 'components')) {
       return new DiagramGroup(this, item as IGroup, parent);
     }
-    return new DiagramNode(this, item as IComponent, undefined, parent)
+    const node = new DiagramNode(this, item as IComponent, undefined, parent)
+    node.calculateDimension();
+    return node;
   }
 
   reset() {
@@ -45,7 +47,9 @@ export default class DiagramGraph {
     // create our own graph structure form diagram data 
     // (DiagramGroup and DiagramNode instances)
     for (const group of diagram.groups) {
-      children.push(this.createNode(group, undefined));
+      // create all groups, subgroups and nodes
+      const node = this.createNode(group, undefined)
+      children.push(node);
     }
     // after all children have been created and all its positions and dimensions
     // have been calculated we can forward the data to dagree

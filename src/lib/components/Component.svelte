@@ -11,14 +11,14 @@
   console.log(data.node.height);
 </script>
 
-<div class="node" style:height={`${data.node.height}px`}>
+<div class="node" style:width={`${data.node.width}px`} style:height={`${data.node.height}px`}>
   <Handle type="target" position={Position.Top} />
   <div class="header">
-    {component.pkg}/{component.name}
+    {component.name}
   </div>
   {#if component.functions}
   <div class="funcs">
-    {component.pkg}/{component.name}
+    
   </div>
   {/if}
   {#if component.attributes}
@@ -44,5 +44,11 @@
     padding: 12px;
     border: 2px solid #b1b1b1;
     border-radius: 6px;
+  }
+
+  .header, .funcs, .attributes {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 </style>
