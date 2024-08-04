@@ -8,7 +8,6 @@
 
   export let data: { node: DiagramNode };
   let component = data.node.compData;
-  console.log(data.node.height);
 </script>
 
 <div class="node" style:width={`${data.node.width}px`} style:height={`${data.node.height}px`}>
@@ -27,13 +26,15 @@
       {#if Object.hasOwn(attr, 'attr_type')}
         <div>
           {attr.prefix || ''} {attr.name}:{attr.attr_type}
-          <div style="position: relative; right: 0; bottom: 5px;">
-          <Handle type="source" position={Position.Right} />
-          </div>
         </div>
       {/if}
     {/each}
   </div>
+  {#each component.attributes as attr}
+    {#if Object.hasOwn(attr, 'attr_type')}
+        <Handle type="source" position={Position.Right} />
+    {/if}
+  {/each}
   {/if}
   
 </div>

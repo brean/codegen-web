@@ -17,8 +17,9 @@ export default class DiagramGraph {
   g: dagre.graphlib.Graph;
 
   constructor() {
-    this.g = new dagre.graphlib.Graph();
-    this.g.setDefaultEdgeLabel(function () { return {}; });
+    this.g = new dagre.graphlib.Graph({ compound: true })
+      .setGraph({})
+      .setDefaultEdgeLabel(() => ({}));
   }
 
   // --- rendering / create nodes and edges for dagre and svelteflow ---
@@ -51,19 +52,19 @@ export default class DiagramGraph {
       const node = this.createNode(group, undefined)
       children.push(node);
     }
+
     // after all children have been created and all its positions and dimensions
     // have been calculated we can forward the data to dagree
     for (const child of children) {
       child.dagreNode(this.g);
     }
 
-    // let dagre layout calculate the layout
+    // let dagre layout calculate the final layout
     dagre.layout(this.g);
 
     // create nodes for svelteflow
     for (const child of children) {
       child.flowNode(this.g, this.flowNodes);
     }
-    console.log(this.flowNodes);
   }
 }

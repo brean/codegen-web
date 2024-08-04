@@ -10,7 +10,7 @@ import type DiagramGroup from './DiagramGroup';
 export default class DiagramNode {
   id: string
   graph: DiagramGraph;
-  compData: IComponent;
+  compData?: IComponent;
 
   initialHeight: number = 0;
   initialWidth: number = 150;
@@ -24,7 +24,7 @@ export default class DiagramNode {
 
   parent?: DiagramGroup;
 
-  constructor(graph: DiagramGraph, data: IComponent, id?: string, parent?: DiagramGroup) {
+  constructor(graph: DiagramGraph, data?: IComponent, id?: string, parent?: DiagramGroup) {
     this.graph = graph;
     this.compData = data
     this.id = id || uuid();
@@ -67,12 +67,6 @@ export default class DiagramNode {
     // set width/height BEFORE calling dagre
     this.width = this.calcWidth();
     this.height = this.calcHeight();
-    console.log([this.width, this.height])
-  }
-
-  flowNode(g: dagre.graphlib.Graph, nodeList: Node[]) {
-    const node = this.createFlowNode(g)
-    nodeList.push(node);
   }
 
   dagreNode(g: dagre.graphlib.Graph) {
@@ -80,13 +74,16 @@ export default class DiagramNode {
     // TODO: setEdge for dagre connection between attributes
   }
 
+  flowNode(g: dagre.graphlib.Graph, nodeList: Node[]) {
+    const node = this.createFlowNode(g)
+    nodeList.push(node);
+  }
+
   createFlowNode(g: dagre.graphlib.Graph): Node {
     const dagreNode = g.node(this.id);
     if (dagreNode) {
       this.x = this.calcX(dagreNode);
       this.y = this.calcY(dagreNode);
-    } else {
-      throw new Error(`dagre node ${this.id} does not exist!`);
     }
     const node: Node = {
       id: this.id,

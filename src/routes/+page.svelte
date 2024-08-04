@@ -45,7 +45,6 @@
               <div class="card-container">
                 <Card>
                   <PrimaryAction on:click={() => {
-                    console.log(graph)
                     diagram.set(graph);
                   }}>
                     <CardContent class="mdc-typography--body2">
