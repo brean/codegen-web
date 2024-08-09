@@ -9,7 +9,6 @@ export default class DiagramGroup extends DiagramNode {
   groupData: IGroup;
   children: (DiagramGroup | DiagramNode)[];
 
-
   constructor(graph: DiagramGraph, data: IGroup, parent?: DiagramGroup) {
     super(graph, undefined, undefined, parent);
 
@@ -39,10 +38,10 @@ export default class DiagramGroup extends DiagramNode {
         child.dagreNode(g);
         g.setParent(child.id, this.id);
       }
-      this.calculateDimension();
     }
+    // position children
     dagre.layout(g);
-
+    this.calculateDimension();
   }
 
   subChildSum(): number {
@@ -58,7 +57,10 @@ export default class DiagramGroup extends DiagramNode {
     let maxX = 0;
     for (const child of this.children) {
       maxX = Math.max(maxX, child.x + child.calcWidth());
+      // TODO: x is 0, as its not calculated by dagree yet
+      console.log("maxX:", child.id, child.x, child.calcWidth());
     }
+    console.log("final maxX:", maxX);
     return maxX + 40;
   }
 
@@ -78,6 +80,7 @@ export default class DiagramGroup extends DiagramNode {
   }
 
   flowNode(g: dagre.graphlib.Graph, nodeList: Node[]) {
+    // recalculate dimensions, now that 
     const node = this.createFlowNode(g)
     if (node) {
       nodeList.push(node)

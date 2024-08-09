@@ -64,9 +64,10 @@ export default class DiagramNode {
   }
 
   calculateDimension() {
-    // set width/height BEFORE calling dagre
+    // set width/height BEFORE (and in case of a group also AFTER) calling dagre
     this.width = this.calcWidth();
     this.height = this.calcHeight();
+    console.log(this.parent, this.id, this.width, this.height);
   }
 
   dagreNode(g: dagre.graphlib.Graph) {

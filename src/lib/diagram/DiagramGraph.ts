@@ -28,7 +28,8 @@ export default class DiagramGraph {
     if (Object.hasOwn(item, 'components')) {
       return new DiagramGroup(this, item as IGroup, parent);
     }
-    const node = new DiagramNode(this, item as IComponent, undefined, parent)
+    const node = new DiagramNode(this, item as IComponent, undefined, parent);
+    // if its a simple node we directly calculate the dimensions to get its width/height for positioning.
     node.calculateDimension();
     return node;
   }
@@ -47,14 +48,15 @@ export default class DiagramGraph {
     const children: (DiagramGroup | DiagramNode)[] = [];
     // create our own graph structure form diagram data 
     // (DiagramGroup and DiagramNode instances)
+    // dimensions of nodes are calculated directly, we have to calculate
+    // dimensions of groups later
     for (const group of diagram.groups) {
       // create all groups, subgroups and nodes
       const node = this.createNode(group, undefined)
       children.push(node);
     }
 
-    // after all children have been created and all its positions and dimensions
-    // have been calculated we can forward the data to dagree
+    // create dagre structure, layout children
     for (const child of children) {
       child.dagreNode(this.g);
     }
@@ -66,5 +68,6 @@ export default class DiagramGraph {
     for (const child of children) {
       child.flowNode(this.g, this.flowNodes);
     }
+    console.log(this.flowNodes);
   }
 }
