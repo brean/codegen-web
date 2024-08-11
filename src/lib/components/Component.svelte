@@ -13,19 +13,21 @@
 <div class="node" style:width={`${data.node.width}px`} style:height={`${data.node.height}px`}>
   <Handle type="target" position={Position.Top} />
   <div class="header">
-    {component.name}
+    <b>{component.name}</b>
   </div>
   {#if component.functions}
+  <div class="bar" style:width={`${data.node.width + 24}px`} />
   <div class="funcs">
     
   </div>
   {/if}
   {#if component.attributes}
+  <div class="bar" style:width={`${data.node.width + 24}px`} />
   <div class="attributes">
     {#each component.attributes as attr}
       {#if Object.hasOwn(attr, 'attr_type')}
         <div>
-          {attr.prefix || ''} {attr.name}:{attr.attr_type}
+          {attr.prefix || ''} {attr.name}: {attr.attr_type}
         </div>
       {/if}
     {/each}
@@ -40,6 +42,15 @@
 </div>
 
 <style>
+  .bar {
+    width: 100%;
+    background-color: #b1b1b1;
+    height: 2px;
+    margin-top: 2px;
+    margin-left: -12px;
+    margin-bottom: 2px;
+  }
+
   .node {
     position: relative;
     padding: 12px;

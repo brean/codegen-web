@@ -39,6 +39,8 @@ export default class DiagramNode {
     const attributes = this.compData?.attributes.length || 0;
     const functions = this.compData?.functions?.length || 0;
     return this.initialHeight + 20 +
+      (attributes > 0 ? 6 : 0) + 
+      (functions > 0 ? 6 : 0) + 
       this.cellHeight * (attributes + functions);
   }
 
@@ -90,7 +92,9 @@ export default class DiagramNode {
       id: this.id,
       type: 'component',
       data: { label: this.id, node: this },
-      position: { x: this.x, y: this.y }
+      position: { x: this.x, y: this.y },
+      width: this.width,
+      height: this.height
     };
     if (this.parent) {
       node.parentId = this.parent.id;

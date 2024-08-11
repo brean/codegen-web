@@ -69,7 +69,7 @@ export default class DiagramGroup extends DiagramNode {
     for (const child of this.children) {
       maxY = Math.max(maxY, child.y + child.calcHeight());
     }
-    return maxY;
+    return maxY + 40;
   }
 
   // create svelteflow Node
