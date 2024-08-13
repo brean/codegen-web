@@ -45,6 +45,8 @@ export default class DiagramGraph {
     this.reset();
 
     this.diagram = diagram;
+    // children are only top-level children,
+    // children of groups are not in this list
     const children: (DiagramGroup | DiagramNode)[] = [];
     // create our own graph structure form diagram data 
     // (DiagramGroup and DiagramNode instances)
@@ -63,12 +65,13 @@ export default class DiagramGraph {
     }
 
     // let dagre layout calculate the final layout
-    // dagre.layout(this.g);
+    // (for positions of groups)
+    console.log("run dagre")
+    dagre.layout(this.g);
 
     // create nodes for svelteflow
     for (const child of children) {
-      child.flowNode(this.g, this.flowNodes);
+      child.flowNode(this.flowNodes);
     }
-    // console.log(this.flowNodes);
   }
 }

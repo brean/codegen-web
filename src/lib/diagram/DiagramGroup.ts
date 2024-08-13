@@ -40,8 +40,16 @@ export default class DiagramGroup extends DiagramNode {
       }
     }
     // position children
+    console.log("run dagre to pos children")
     dagre.layout(g);
+    if (this.children) {
+      for (const child of this.children) {
+        child.setPosition(g);
+      }
+    }
+    // now we can calculate the group width/height
     this.calculateDimension();
+    this.setPosition(g)
   }
 
   subChildSum(): number {
@@ -56,9 +64,9 @@ export default class DiagramGroup extends DiagramNode {
   calcWidth(): number {
     let maxX = 0;
     for (const child of this.children) {
-      maxX = Math.max(maxX, child.x + child.calcWidth());
+      maxX = Math.max(maxX, child.x + (child.width/2));
       // TODO: x is 0, as its not calculated by dagree yet
-      console.log("maxX:", child.id, child.x, child.calcWidth());
+      console.log("maxX:", child.id, child.x, child.width);
     }
     console.log("final maxX:", maxX);
     return maxX + 40;
@@ -67,26 +75,26 @@ export default class DiagramGroup extends DiagramNode {
   calcHeight(): number {
     let maxY = 0;
     for (const child of this.children) {
-      maxY = Math.max(maxY, child.y + child.calcHeight());
+      maxY = Math.max(maxY, child.y + (child.height/2));
     }
     return maxY + 40;
   }
 
   // create svelteflow Node
-  createFlowNode(g: dagre.graphlib.Graph): Node {
-    const node = super.createFlowNode(g);
+  createFlowNode(): Node {
+    const node = super.createFlowNode();
     node.type = 'group';
     return node;
   }
 
-  flowNode(g: dagre.graphlib.Graph, nodeList: Node[]) {
+  flowNode(nodeList: Node[]) {
     // recalculate dimensions, now that 
-    const node = this.createFlowNode(g)
+    const node = this.createFlowNode()
     if (node) {
       nodeList.push(node)
     }
     for (const child of this.children) {
-      child.flowNode(g, nodeList);
+      child.flowNode(nodeList);
     }
   }
 }

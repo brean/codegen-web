@@ -69,25 +69,30 @@ export default class DiagramNode {
     // set width/height BEFORE (and in case of a group also AFTER) calling dagre
     this.width = this.calcWidth();
     this.height = this.calcHeight();
-    console.log(this.parent, this.id, this.width, this.height);
   }
 
   dagreNode(g: dagre.graphlib.Graph) {
-    g.setNode(this.id, { width: this.width, height: this.height });
+    g.setNode(this.id, {
+      width: this.width,
+      height: this.height
+    });
     // TODO: setEdge for dagre connection between attributes
   }
 
-  flowNode(g: dagre.graphlib.Graph, nodeList: Node[]) {
-    const node = this.createFlowNode(g)
+  flowNode(nodeList: Node[]) {
+    const node = this.createFlowNode()
     nodeList.push(node);
   }
 
-  createFlowNode(g: dagre.graphlib.Graph): Node {
+  setPosition(g: dagre.graphlib.Graph) {
     const dagreNode = g.node(this.id);
     if (dagreNode) {
       this.x = this.calcX(dagreNode);
       this.y = this.calcY(dagreNode);
     }
+  }
+
+  createFlowNode(): Node {
     const node: Node = {
       id: this.id,
       type: 'component',
